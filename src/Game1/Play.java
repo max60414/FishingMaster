@@ -20,10 +20,12 @@ public class Play extends BasicGameState{
     Animation lastOne,event,showNo,showGet,showGetLast;
     Animation fishingUp,fishingDown,fishingLeft,fishingRight;
     Animation handsUp;
+    Animation hungryDegree;
     int[] duration = {200};
     private int fishingTime;
     private int countEventTime;
     private SpriteSheet moveDownSheet,moveUpSheet,moveLeftSheet,moveRightSheet;
+    private SpriteSheet eGetSheet;
     private float bossPositionX = 0;
     private float bossPositionY = 0;
     private float shiftX = bossPositionX + 375;
@@ -46,7 +48,7 @@ public class Play extends BasicGameState{
         Timer timer = new Timer();
         
         
-        worldMap = new Image("res/bigWorldMap001.png");
+        worldMap = new Image("res/map/TaiwanWorld.png");
         
         Image[] sUp = {new Image("res/upStand50x107.png")};
         Image[] sDown = {new Image("res/downStand50x107.png")};
@@ -60,19 +62,15 @@ public class Play extends BasicGameState{
         Image[] eEmpty = {new Image("res/event/event-empty.png")};
         
         Image[] eGetLast = {new Image("res/Get/20001.png")};
-        Image[] eGet = {new Image("res/Get/20015.png"),new Image("res/Get/20014.png"),
-                new Image("res/Get/20013.png"),new Image("res/Get/20012.png"),
-                new Image("res/Get/20011.png"),new Image("res/Get/20010.png"),
-                new Image("res/Get/20009.png"),new Image("res/Get/20008.png"),
-                new Image("res/Get/20007.png"),new Image("res/Get/20006.png"),
-                new Image("res/Get/20005.png"),new Image("res/Get/20004.png"),
-                new Image("res/Get/20003.png"),new Image("res/Get/20002.png"),
-                new Image("res/Get/20001.png")};
+        
+        Image[] hungry = {new Image("res/hungry/hungryLine.png")};
         
         moveUpSheet = new SpriteSheet("res/upMove200x107.png",50,107);
         moveDownSheet = new SpriteSheet("res/downMove200x107.png",50,107);
         moveLeftSheet = new SpriteSheet("res/leftMove200x107.png",50,107);
         moveRightSheet = new SpriteSheet("res/rightMove200x107.png",50,107);
+        
+        eGetSheet = new SpriteSheet("res/Get/getAnim.png",800,600);
         
         moveUp = new Animation(moveUpSheet,200);
         moveDown = new Animation(moveDownSheet,200);
@@ -91,13 +89,15 @@ public class Play extends BasicGameState{
         handsUp = new Animation(fHandsUp,1000);
         
         showNo = new Animation(eEmpty,500);
-        showGet = new Animation(eGet,50,true);
+        showGet = new Animation(eGetSheet,50);
         showGetLast = new Animation(eGetLast,100,false);
         
         event = new Animation(eEmpty,500,false);
         
         boss = new Animation(sDown,100,false);
         lastOne = new Animation(sDown,100,false);
+        
+        hungryDegree = new Animation(hungry,100);
         
     }
 
@@ -108,7 +108,7 @@ public class Play extends BasicGameState{
         g.drawString(alert,50,150);
         boss.draw(shiftX, shiftY);
         event.draw(0,0);
-
+        hungryDegree.draw(130,520);
         
         
         
@@ -223,6 +223,7 @@ public class Play extends BasicGameState{
                     leftKeyDownF = false;
                 }
                 lastOne = handsUp;
+                showGet.setLooping(false);
                 event = showGet;
                 eventShow = true;
             }
@@ -230,18 +231,17 @@ public class Play extends BasicGameState{
         }
         
         if(eventShow){
-            if(countEventTime<=20){
+            if(countEventTime<=150){
                 countEventTime += 1;
             }
             else {
                 event = showNo;
                 countEventTime = 0;
                 eventShow = false;
+                showGet = new Animation(eGetSheet,50);
             }
         }
     }
-    
-
 
     public void checkKeyDownF(){
         if(leftKeyDownF){
