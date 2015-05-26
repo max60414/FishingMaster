@@ -5,10 +5,12 @@ import org.newdawn.slick.state.*;
 
 
 public class Battle extends BasicGameState{
-
+	private float bossPositionX;
+    private float bossPositionY;
 	private Input input;
 	private int fightCount = 0;
 	Image[] fightImg;
+	Image worldMap;
 
 	public Battle(int state) {
 		
@@ -16,6 +18,8 @@ public class Battle extends BasicGameState{
 
 	public void init(GameContainer gameCon, StateBasedGame staBasG)
 			throws SlickException {
+		
+		worldMap = new Image("res/map/TaiwanWorld.png");
 		
 		Image[] fightGUI = {
 			new Image("res/fight/fight.png"),
@@ -30,6 +34,7 @@ public class Battle extends BasicGameState{
 
 	public void render(GameContainer gameCon, StateBasedGame staBasG, Graphics g)
 			throws SlickException {
+		worldMap.draw(bossPositionX,bossPositionY);
         fightImg[fightCount].draw(0,0);
 		
 	}

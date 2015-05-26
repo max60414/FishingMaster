@@ -21,7 +21,7 @@ public class Main extends StateBasedGame{
     public void initStatesList(GameContainer gameCon) throws SlickException {
         this.getState(menu).init(gameCon,this); //put the screen in the GameContainer object
         this.getState(play).init(gameCon,this);
-        //this.getState(battle).init(gameCon,this);
+        this.getState(battle).init(gameCon,this);
         this.enterState(menu); //set the first screen as the "menu" screen;
     }
 
