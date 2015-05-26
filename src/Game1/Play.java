@@ -131,6 +131,11 @@ public class Play extends BasicGameState{
         
         hungryLine();
         
+        if(input.isKeyDown(Input.KEY_C)){
+        	staBasG.enterState(2);
+        	
+        }
+        
         if(input.isKeyDown(Input.KEY_ESCAPE)){
             escape = true;
             if(escape == true){
@@ -264,8 +269,6 @@ public class Play extends BasicGameState{
                 showGet = new Animation(eGetSheet,50);
             }
         }
-        
-        
     }
     
     public void hungryLine(){
@@ -378,7 +381,7 @@ public class Play extends BasicGameState{
     }
     
     public void getFish(){
-        alert = "get!!!!!!!!!!!!!";
+        alert = "get!!!!!!!!!!!!!";  
     }
 
     public int getID() {
