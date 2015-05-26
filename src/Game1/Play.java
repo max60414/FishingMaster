@@ -20,16 +20,18 @@ public class Play extends BasicGameState{
     Animation lastOne,event,showNo,showGet,showGetLast;
     Animation fishingUp,fishingDown,fishingLeft,fishingRight;
     Animation handsUp;
-    Animation hungryDegree;
+    Image[] hungryDegreeImg;
     int[] duration = {200};
     private int fishingTime;
     private int countEventTime;
+    private int hungryTimeCount = 11000;
+    private int hungryDegree = 10;
     private SpriteSheet moveDownSheet,moveUpSheet,moveLeftSheet,moveRightSheet;
     private SpriteSheet eGetSheet;
-    private float bossPositionX = 0;
-    private float bossPositionY = 0;
-    private float shiftX = bossPositionX + 375;
-    private float shiftY = bossPositionY + 246;
+    private float bossPositionX = -1000;
+    private float bossPositionY = -200;
+    private float shiftX = bossPositionX + 1375;
+    private float shiftY = bossPositionY + 446;
     
     boolean upKeyDownF = false;
     boolean downKeyDownF = false;
@@ -39,14 +41,13 @@ public class Play extends BasicGameState{
     boolean startFishing = false;
     boolean endFishing = false;
     boolean eventShow = false;
+    boolean turnLeft = false,turnRight = false,turnUp = false,turnDown = false;
     
     public Play(int state){
         
     }
 
     public void init(GameContainer gameCon, StateBasedGame staBasG) throws SlickException {
-        Timer timer = new Timer();
-        
         
         worldMap = new Image("res/map/TaiwanWorld.png");
         
@@ -63,7 +64,12 @@ public class Play extends BasicGameState{
         
         Image[] eGetLast = {new Image("res/Get/20001.png")};
         
-        Image[] hungry = {new Image("res/hungry/hungryLine.png")};
+        Image[] hungry = {new Image("res/hungry/hungryLine.png"),new Image("res/hungry/hungryLine01.png"),
+                new Image("res/hungry/hungryLine02.png"),new Image("res/hungry/hungryLine03.png"),
+                new Image("res/hungry/hungryLine04.png"),new Image("res/hungry/hungryLine05.png"),
+                new Image("res/hungry/hungryLine06.png"),new Image("res/hungry/hungryLine07.png"),
+                new Image("res/hungry/hungryLine08.png"),new Image("res/hungry/hungryLine09.png"),
+                new Image("res/hungry/hungryLine10.png")};
         
         moveUpSheet = new SpriteSheet("res/upMove200x107.png",50,107);
         moveDownSheet = new SpriteSheet("res/downMove200x107.png",50,107);
@@ -97,8 +103,7 @@ public class Play extends BasicGameState{
         boss = new Animation(sDown,100,false);
         lastOne = new Animation(sDown,100,false);
         
-        hungryDegree = new Animation(hungry,100);
-        
+        hungryDegreeImg = hungry;
     }
 
     public void render(GameContainer gameCon, StateBasedGame staBasG, Graphics g) throws SlickException {
@@ -108,9 +113,7 @@ public class Play extends BasicGameState{
         g.drawString(alert,50,150);
         boss.draw(shiftX, shiftY);
         event.draw(0,0);
-        hungryDegree.draw(130,520);
-        
-        
+        hungryDegreeImg[hungryDegree].draw(0,0);
         
         //g.drawImage(exImage, exImageX, exImageY); //set the image location (image name, X pos , Y pos)
     }
@@ -126,6 +129,8 @@ public class Play extends BasicGameState{
         bossPosition = "Boss Position x: " +bossPositionX+ " y: " +bossPositionY;
         alert = "counting: "+fishingTime;
         
+        hungryLine();
+        
         if(input.isKeyDown(Input.KEY_ESCAPE)){
             escape = true;
             if(escape == true){
@@ -135,6 +140,10 @@ public class Play extends BasicGameState{
         
         if(input.isKeyDown(Input.KEY_UP)){
             startFishing = false;
+            turnLeft = false;
+            turnRight = false;
+            turnUp = true;
+            turnDown = false;
             fishingTime = rand.nextInt(50)+100;
             checkKeyDownF();
             boss = moveUp;
@@ -144,6 +153,10 @@ public class Play extends BasicGameState{
         
         if(input.isKeyDown(Input.KEY_DOWN)){
             startFishing = false;
+            turnLeft = false;
+            turnRight = false;
+            turnUp = false;
+            turnDown = true;
             fishingTime = rand.nextInt(50)+100;
             checkKeyDownF();
             boss = moveDown;
@@ -157,6 +170,10 @@ public class Play extends BasicGameState{
         
         if(input.isKeyDown(Input.KEY_LEFT)){
             startFishing = false;
+            turnLeft = true;
+            turnRight = false;
+            turnUp = false;
+            turnDown = false;
             fishingTime = rand.nextInt(50)+100;
             checkKeyDownF();
             boss = moveLeft;
@@ -167,12 +184,18 @@ public class Play extends BasicGameState{
         
         if(input.isKeyDown(Input.KEY_RIGHT)){
             startFishing = false;
+            turnLeft =false;
+            turnRight = true;
+            turnUp = false;
+            turnDown = false;
             fishingTime = rand.nextInt(50)+100;
             checkKeyDownF();
             boss = moveRight;
             lastOne = standRight;
             bossPositionX -= 0.3f * delta;
         }
+        
+        setBound(delta); //==================================  setBound
         
         if(lastOne == standUp && input.isKeyDown(Input.KEY_F)){
             upKeyDownF = true;
@@ -241,6 +264,110 @@ public class Play extends BasicGameState{
                 showGet = new Animation(eGetSheet,50);
             }
         }
+        
+        
+    }
+    
+    public void hungryLine(){
+        if(hungryTimeCount>=0){
+            hungryTimeCount--;
+        }
+        
+        if(hungryTimeCount==9000){
+            hungryDegree = 9;
+        }
+        else if(hungryTimeCount==8000){
+            hungryDegree = 8;
+        }
+        else if(hungryTimeCount==7000){
+            hungryDegree = 7;
+        }
+        else if(hungryTimeCount==6000){
+            hungryDegree = 6;
+        }
+        else if(hungryTimeCount==5000){
+            hungryDegree = 5;
+        }
+        else if(hungryTimeCount==4000){
+            hungryDegree = 4;
+        }
+        else if(hungryTimeCount==3000){
+            hungryDegree = 3;
+        }
+        else if(hungryTimeCount==2000){
+            hungryDegree = 2;
+        }
+        else if(hungryTimeCount==1000){
+            hungryDegree = 1;
+        }
+        else if(hungryTimeCount==0){
+            hungryDegree = 0;
+        }
+    }
+    
+    public void setBound(int delta){
+        if(bossPositionY>-95){
+            bossPositionY-= 0.3f * delta;
+        }
+        
+        if((bossPositionY+bossPositionX*5/4)>=(-1275)){
+            if(turnLeft){
+                bossPositionX-= 0.3f * delta;
+            }
+            else if(turnUp){
+                bossPositionY-= 0.3f * delta;
+            }
+        }
+        
+        if((bossPositionY+bossPositionX*271/86)>=(-169709/86)){
+            if(turnLeft){
+                bossPositionX-= 0.3f * delta;
+            }
+            else if(turnUp){
+                bossPositionY-= 0.3f * delta;
+            }
+        }
+        
+        if((bossPositionY-bossPositionX*88/79)<=(-66740/79)){
+            if(turnLeft){
+                bossPositionX-= 0.3f * delta;
+            }
+            else if(turnDown){
+                bossPositionY+= 0.3f * delta;
+            }
+        }
+        
+        if(bossPositionY<-1590){
+            bossPositionY+= 0.3f * delta;
+        }
+        
+        if((bossPositionY+bossPositionX*219/97)<=(-327850/97)){
+            if(turnRight){
+                bossPositionX+= 0.3f * delta;
+            }
+            else if(turnDown){
+                bossPositionY+= 0.3f * delta;
+            }
+        }
+        
+        if((bossPositionY+bossPositionX*26/5)<=(-7146)){
+            if(turnRight){
+                bossPositionX+= 0.3f * delta;
+            }
+            else if(turnDown){
+                bossPositionY+= 0.3f * delta;
+            }
+        }
+        
+        if((bossPositionY-bossPositionX*13/23)>=(12000/23)){
+            if(turnRight){
+                bossPositionX+= 0.3f * delta;
+            }
+            else if(turnUp){
+                bossPositionY-= 0.3f * delta;
+            }
+        }
+        
     }
 
     public void checkKeyDownF(){
