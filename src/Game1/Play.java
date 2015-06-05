@@ -137,11 +137,13 @@ public class Play extends BasicGameState{
         hungryLine();
         eventShow(staBasG);
         
-<<<<<<< HEAD
+
         if(input.isKeyDown(Input.KEY_ESCAPE)){
             escape = true;
             if(escape == true){
-=======
+            }
+        }
+
         if(ifWalking){
             if(input.isKeyDown(Input.KEY_C)){
                 staBasG.enterState(2);
@@ -151,7 +153,7 @@ public class Play extends BasicGameState{
             if(input.isKeyDown(Input.KEY_ESCAPE)){
                 escape = true;
                 if(escape == true){
->>>>>>> origin/master
+
                  
                 }
             }
@@ -272,7 +274,7 @@ public class Play extends BasicGameState{
             
         }
         
-<<<<<<< HEAD
+
         if(eventShow){
             if(countEventTime<=150){
                 countEventTime += 1;
@@ -285,9 +287,8 @@ public class Play extends BasicGameState{
                 staBasG.enterState(2);
             }
         }
-=======
         
->>>>>>> origin/master
+           
     }
     
     public void hungryLine(){

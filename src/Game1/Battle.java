@@ -42,10 +42,25 @@ public class Battle extends BasicGameState{
 			throws SlickException {
         //changePoint();
         Input input = gameCon.getInput();
+        if(start){
+            fightCount = 1;
+            start = false;
+        }
         
-<<<<<<< HEAD
             if(input.isKeyDown(Input.KEY_DOWN) && fightCount == 1){
                 fightCount = 2;
+            }
+            
+            if(input.isKeyDown(Input.KEY_RIGHT) && fightCount == 1){
+                fightCount = 3;
+            }
+            
+            if(input.isKeyDown(Input.KEY_RIGHT) && fightCount == 2){
+                fightCount = 4;
+            }
+            
+            if(input.isKeyDown(Input.KEY_UP) && fightCount == 2){
+                fightCount = 1;
             }
             
             if(input.isKeyDown(Input.KEY_DOWN) && fightCount == 3){
@@ -59,80 +74,20 @@ public class Battle extends BasicGameState{
             if(input.isKeyDown(Input.KEY_LEFT) && fightCount == 4){
                 fightCount = 2;
             }
-
-            if(input.isKeyDown(Input.KEY_RIGHT) && fightCount == 1){
+            
+            if(input.isKeyDown(Input.KEY_UP) && fightCount == 4){
                 fightCount = 3;
             }
             
-            if(input.isKeyDown(Input.KEY_RIGHT) && fightCount == 2){
-                fightCount = 4;
-            }
-            
-            if(input.isKeyDown(Input.KEY_Z) && fightCount == 4){
-            	zCount--;
+            if(input.isKeyDown(Input.KEY_ENTER) && fightCount == 4){
             	fightCount =  0;
+            	start = true;
             	staBasG.enterState(1);
             }
 		
 	}
 	
-	/*public void changePoint(){
-		if(input.isKeyDown(Input.KEY_Z)){
-        	fightCount = 1;
-        	
-            if(input.isKeyDown(Input.KEY_UP) && fightCount == 2){
-                fightCount = 1;
-            }
-            
-            if(input.isKeyDown(Input.KEY_UP) && fightCount == 4){
-                fightCount = 3;
-            }
-=======
-        if(input.isKeyDown(Input.KEY_UP) && fightCount == 2){
-            fightCount = 1;
-        }
-        
-        if(input.isKeyDown(Input.KEY_UP) && fightCount == 4){
-            fightCount = 3;
-        }
->>>>>>> origin/master
-        
-        if(input.isKeyDown(Input.KEY_DOWN) && fightCount == 1){
-            fightCount = 2;
-        }
-            
-        if(input.isKeyDown(Input.KEY_DOWN) && fightCount == 3){
-            fightCount = 4;
-        }
-                    
-        if(input.isKeyDown(Input.KEY_LEFT) && fightCount == 3){
-            fightCount = 1;
-        }
-            
-        if(input.isKeyDown(Input.KEY_LEFT) && fightCount == 4){
-            fightCount = 2;
-        }
 
-        if(input.isKeyDown(Input.KEY_RIGHT) && fightCount == 1){
-            fightCount = 3;
-        }
-        
-        if(input.isKeyDown(Input.KEY_RIGHT) && fightCount == 2){
-            fightCount = 4;
-        }
-            
-        if(input.isKeyDown(Input.KEY_ENTER) && fightCount == 4){
-            fightCount = 0;
-            start = true;
-            staBasG.enterState(1);
-        }
-        
-        if(start){
-            fightCount = 1;
-            start = false;
-        }
-        
-    }
 		
 
 	public int getID() {
