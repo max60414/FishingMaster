@@ -32,6 +32,8 @@ public class Play extends BasicGameState{
     private float bossPositionY = -200;
     private float shiftX = bossPositionX + 1375;
     private float shiftY = bossPositionY + 446;
+    private float currentPositionX = 0;
+    private float currentPositionY = 0;
     
     boolean upKeyDownF = false;
     boolean downKeyDownF = false;
@@ -42,6 +44,9 @@ public class Play extends BasicGameState{
     boolean endFishing = false;
     boolean eventShow = false;
     boolean turnLeft = false,turnRight = false,turnUp = false,turnDown = false;
+    boolean ifWalking = true;
+    
+    //private final int ;
     
     public Play(int state){
         
@@ -130,74 +135,77 @@ public class Play extends BasicGameState{
         alert = "counting: "+fishingTime;
         
         hungryLine();
+        eventShow(staBasG);
         
-        if(input.isKeyDown(Input.KEY_C)){
-        	staBasG.enterState(2);
+        if(ifWalking){
+            if(input.isKeyDown(Input.KEY_C)){
+                staBasG.enterState(2);
         	
-        }
-        
-        if(input.isKeyDown(Input.KEY_ESCAPE)){
-            escape = true;
-            if(escape == true){
-                 
             }
-        }
         
-        if(input.isKeyDown(Input.KEY_UP)){
-            startFishing = false;
-            turnLeft = false;
-            turnRight = false;
-            turnUp = true;
-            turnDown = false;
-            fishingTime = rand.nextInt(50)+100;
-            checkKeyDownF();
-            boss = moveUp;
-            lastOne = standUp;
-            bossPositionY += 0.3f * delta;
-        }
+            if(input.isKeyDown(Input.KEY_ESCAPE)){
+                escape = true;
+                if(escape == true){
+                 
+                }
+            }
         
-        if(input.isKeyDown(Input.KEY_DOWN)){
-            startFishing = false;
-            turnLeft = false;
-            turnRight = false;
-            turnUp = false;
-            turnDown = true;
-            fishingTime = rand.nextInt(50)+100;
-            checkKeyDownF();
-            boss = moveDown;
-            lastOne = standDown;
-            bossPositionY -= 0.3f * delta;
-            if(bossPositionY<-5202){
+            if(input.isKeyDown(Input.KEY_UP)){
+                startFishing = false;
+                turnLeft = false;
+                turnRight = false;
+                turnUp = true;
+                turnDown = false;
+                fishingTime = rand.nextInt(50)+100;
+                checkKeyDownF();
+                boss = moveUp;
+                lastOne = standUp;
                 bossPositionY += 0.3f * delta;
             }
-        }
+        
+            if(input.isKeyDown(Input.KEY_DOWN)){
+                startFishing = false;
+                turnLeft = false;
+                turnRight = false;
+                turnUp = false;
+                turnDown = true;
+                fishingTime = rand.nextInt(50)+100;
+                checkKeyDownF();
+                boss = moveDown;
+                lastOne = standDown;
+                bossPositionY -= 0.3f * delta;
+                if(bossPositionY<-5202){
+                    bossPositionY += 0.3f * delta;
+                }
+            }
 
         
-        if(input.isKeyDown(Input.KEY_LEFT)){
-            startFishing = false;
-            turnLeft = true;
-            turnRight = false;
-            turnUp = false;
-            turnDown = false;
-            fishingTime = rand.nextInt(50)+100;
-            checkKeyDownF();
-            boss = moveLeft;
-            lastOne = standLeft;
-            bossPositionX += 0.3f * delta;
-        }
+            if(input.isKeyDown(Input.KEY_LEFT)){
+                startFishing = false;
+                turnLeft = true;
+                turnRight = false;
+                turnUp = false;
+                turnDown = false;
+                fishingTime = rand.nextInt(50)+100;
+                checkKeyDownF();
+                boss = moveLeft;
+                lastOne = standLeft;
+                bossPositionX += 0.3f * delta;
+            }
 
         
-        if(input.isKeyDown(Input.KEY_RIGHT)){
-            startFishing = false;
-            turnLeft =false;
-            turnRight = true;
-            turnUp = false;
-            turnDown = false;
-            fishingTime = rand.nextInt(50)+100;
-            checkKeyDownF();
-            boss = moveRight;
-            lastOne = standRight;
-            bossPositionX -= 0.3f * delta;
+            if(input.isKeyDown(Input.KEY_RIGHT)){
+                startFishing = false;
+                turnLeft =false;
+                   turnRight = true;
+                   turnUp = false;
+                   turnDown = false;
+                   fishingTime = rand.nextInt(50)+100;
+                   checkKeyDownF();
+                   boss = moveRight;
+                   lastOne = standRight;
+                   bossPositionX -= 0.3f * delta;
+            }
         }
         
         setBound(delta); //==================================  setBound
@@ -258,17 +266,7 @@ public class Play extends BasicGameState{
             
         }
         
-        if(eventShow){
-            if(countEventTime<=150){
-                countEventTime += 1;
-            }
-            else {
-                event = showNo;
-                countEventTime = 0;
-                eventShow = false;
-                showGet = new Animation(eGetSheet,50);
-            }
-        }
+        
     }
     
     public void hungryLine(){
@@ -305,6 +303,23 @@ public class Play extends BasicGameState{
         }
         else if(hungryTimeCount==0){
             hungryDegree = 0;
+        }
+    }
+    
+    public void eventShow( StateBasedGame staBasG){
+        if(eventShow){
+            if(countEventTime<=50){
+                ifWalking = false;
+                countEventTime += 1;
+            }
+            else {
+                event = showNo;
+                countEventTime = 0;
+                eventShow = false;
+                showGet = new Animation(eGetSheet,50);
+                ifWalking = true;
+                staBasG.enterState(2);
+            }
         }
     }
     
