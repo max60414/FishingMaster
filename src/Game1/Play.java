@@ -131,11 +131,6 @@ public class Play extends BasicGameState{
         
         hungryLine();
         
-        if(input.isKeyDown(Input.KEY_C)){
-        	staBasG.enterState(2);
-        	
-        }
-        
         if(input.isKeyDown(Input.KEY_ESCAPE)){
             escape = true;
             if(escape == true){
@@ -267,6 +262,7 @@ public class Play extends BasicGameState{
                 countEventTime = 0;
                 eventShow = false;
                 showGet = new Animation(eGetSheet,50);
+                staBasG.enterState(2);
             }
         }
     }

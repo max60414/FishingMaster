@@ -81,7 +81,7 @@ public class Battle extends BasicGameState{
             
             if(input.isKeyDown(Input.KEY_Z) && fightCount == 4){
             	zCount--;
-            	fightCount = 0;
+            	fightCount =  0;
             	staBasG.enterState(1);
             }
 		
